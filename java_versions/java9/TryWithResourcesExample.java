@@ -1,18 +1,18 @@
 package com.java_versions.java9;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class TryWithResourcesExample {
     public static void main(String[] args) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader("data.txt"));
+        FileInputStream fis = new FileInputStream("input.txt");
+        FileOutputStream fos = new FileOutputStream("output.txt");
 
-        // ✅ Resource declared outside can now be used inside try-with-resources
-        try (reader) {
-            System.out.println(reader.readLine());
-        } catch (IOException e) {
-            e.printStackTrace();
+        try (fis; fos) {  // use both declared resources
+            int data;
+            while ((data = fis.read()) != -1) {
+                fos.write(data);
+            }
+            System.out.println("File copied successfully!");
         }
     }
 }
